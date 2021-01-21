@@ -1,0 +1,12 @@
+export EDITOR=/usr/bin/nvim
+export SUDO_EDITOR=/usr/bin/nvim
+export VISUAL=/usr/bin/nvim
+export PAGER=/usr/bin/most
+
+if [ -n "${DISPLAY}" ]; then
+    export BROWSER=/usr/bin/firefox
+else
+    export BROWSER=/usr/bin/w3m
+fi
+
+export PATH="$PATH:`yarn global bin`"

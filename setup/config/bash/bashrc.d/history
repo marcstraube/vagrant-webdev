@@ -1,0 +1,14 @@
+# Don't put duplicate lines or lines starting with space in the history
+export HISTCONTROL=ignoreboth
+
+# Add to history instead of overriding it
+shopt -s histappend
+
+# Eternal bash history
+export HISTSIZE=
+export HISTFILESIZE=
+export HISTTIMEFORMAT="[%F %T] "
+
+# Write history after every command
+PROMPT_COMMAND="history -a; ${PROMPT_COMMAND}"
+

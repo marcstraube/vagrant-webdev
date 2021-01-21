@@ -1,0 +1,5 @@
+---
+vm:
+  ip: "dhcp"
+  cpus: 4
+  memory: 4096

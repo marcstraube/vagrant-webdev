@@ -1,0 +1,58 @@
+# Fast and easy file backup
+bu() {
+    cp "${1}" "${1}"-`date +%Y%m%d%H%M`.backup
+}
+
+# Create new archive
+compress() {
+    shift
+    case "${1}" in
+        *.rar)            rar "${1}" $* ;;
+        *.tar.bz2)        tar cjf "${1}" $* ;;
+        *.tar.gz|*.tgz)   tar czf "${1}" $* ;;
+        *.zip)            zip "${1}" $* ;;
+        *)                printf "Filetype not recognized \n" ;;
+    esac
+}
+
+# Extract the most common archive file types
+extract() {
+    if [ -f "${1}" ]; then
+        case $FILE in
+	    *.7z)              7z x "${1}" ;;
+            *.bz2)             bunzip2 "${1}" ;;
+	    *.gz)              gunzip "${1}" ;;
+            *.rar)             unrar e "${1}" ;;
+	    *.tar)             tar xf "${1}" ;;
+            *.tar.bz2|*.tbz2)  tar xjf "${1}" ;;
+            *.tar.gz|*.tgz)    tar xzf "${1}" ;;
+            *.zip)             unzip "${1}" ;;
+	    *.Z)               uncompress "${1}" ;;
+            *)                 printf "'${1}' cannot be extracted via extract(). \n" ;;
+        esac
+    else
+        printf "'${1}' is not a valid file. \n"
+    fi
+}
+
+# Create directory and change into it
+mkcd() {
+    mkdir -p -v "${1}"
+    cd "${1}"
+}
+
+# Make a new alias and persist it in ~/bashrc.d/aliases
+mkalias() {
+    if [[ "${1}" && "${2}" ]]; then
+        printf "alias ${1}=\"${2}\"" >> ${HOME}/.bashrc.d/aliases
+        alias "${1}"="${2}"
+    else
+        printf "Usage: mkalias <name> \"<command>\" \n"
+    fi
+}
+
+# Unalias an alias and remove it from ~/.basrc.d/aliases
+rmalias() {
+    unalias ${1} && sed -i "/alias ${1}\=/d" ${HOME}/.bashrc.d/aliases
+}
+
